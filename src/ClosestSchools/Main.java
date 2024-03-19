@@ -77,6 +77,8 @@ public class Main {
 		double minDistance = distance(sLx.get(0), sLx.get(1));
 
 		if (numberOfSchools <= 3) {
+			return forLoops(sLx, closestPair, 0, numberOfSchools, false, minDistance);
+			/*
 			for(int holdPointer = 0; holdPointer < numberOfSchools; holdPointer++){
 				for(int movingPointer = holdPointer + 1; movingPointer < numberOfSchools; movingPointer++){
 					double calculatedDistance = distance(sLx.get(holdPointer), sLx.get(movingPointer));
@@ -88,6 +90,7 @@ public class Main {
 				}
 			}
 			return closestPair;
+			 */
 		}
 		
 		// Divide
@@ -146,7 +149,8 @@ public class Main {
 				deltaFromMidline.add(school);
 			}
 		}
-
+	
+		/*
 		for(int p1 = 0; p1 < deltaFromMidline.size() - 1; p1++ ){
 			int stopIndex = (p1 + 7 <= deltaFromMidline.size()) ? p1 + 7 : deltaFromMidline.size();
 			for(int p2 = p1 + 1; p2 < stopIndex; p2++){
@@ -159,8 +163,9 @@ public class Main {
 				}
 			}
 		}
-		return returnArray;
+		 */
 
+		return forLoops(deltaFromMidline, returnArray, 0, deltaFromMidline.size()-1, true, currentMinDistance);
 	}
 
 
@@ -169,5 +174,32 @@ public class Main {
 	public static double distance(School p1, School p2){
 		double calculatedDistance = Math.sqrt(Math.pow((p2.getX() - p1.getX()),2) + Math.pow((p2.getY() - p1.getY()),2) );
 		return calculatedDistance;
+	}
+
+	// note ending index is just the arraySize 
+	public static School[] forLoops(
+		ArrayList<School> arrayOfSchools, 
+		School[] startingState, 
+		int startingP1, 
+		int endingP1,
+		boolean conditionTwo,
+		double startingMinDistance
+		){
+		School[] returnArray = startingState;
+		double currentMinDistance = startingMinDistance;
+
+		for(int p1 = startingP1; p1 < endingP1; p1++ ){
+			int stopIndex = (p1 + 7 <= arrayOfSchools.size() && conditionTwo) ? p1 + 7 : arrayOfSchools.size();
+			for(int p2 = p1 + 1; p2 < stopIndex; p2++){
+				double distance = distance(arrayOfSchools.get(p1), arrayOfSchools.get(p2));
+				if(distance < currentMinDistance){
+					currentMinDistance = distance;
+					returnArray[0] = arrayOfSchools.get(p1);
+					returnArray[1] = arrayOfSchools.get(p2);
+				}
+			}
+		}
+
+		return returnArray;
 	}
 }
