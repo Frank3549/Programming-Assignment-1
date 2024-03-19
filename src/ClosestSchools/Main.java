@@ -93,15 +93,13 @@ public class Main {
 		// Divide
 		double midline = 0;
 		if(sLx.size() % 2 == 0){
-			int adjustedSize = sLx.size() - 1;
-			double number1 = sLx.get((int) Math.floor(adjustedSize/2)).getX();
-			double number2 = sLx.get(adjustedSize/2 + 1).getX();
+			double number1 = sLx.get((int) Math.floor((sLx.size() - 1)/2)).getX();
+			double number2 = sLx.get((sLx.size() - 1)/2 + 1).getX();
 			midline = (number1 + number2)/2;
 		}
 		else{
-			int adjustedSize = sLx.size() - 2;
-			double number1 = sLx.get(adjustedSize/2).getX();
-			double number2 = sLx.get(adjustedSize/2 + 1).getX();
+			double number1 = sLx.get((sLx.size() - 2)/2).getX();
+			double number2 = sLx.get((sLx.size() - 2)/2 + 1).getX();
 			midline = (number1 + number2)/2;
 
 		}
