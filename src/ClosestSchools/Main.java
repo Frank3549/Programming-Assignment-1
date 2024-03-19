@@ -62,35 +62,13 @@ public class Main {
 	}
 
 	public static School[] ClosestPoints(ArrayList<School> sLx, ArrayList<School> sLy){
-		// Recursive divide and conquer algorithm for closest points
-		// sLx should be sorted by x coordinate and sLy should be sorted by y coordinate
-		// Returns an array containing the two closest School objects
 
-
-		
-		
-		
-		// Base case Brute force solve min distance.
-		// should always be at least 2 schools inside the list
 		School[] closestPair = new School[2];
 		int numberOfSchools = sLx.size();
 		double minDistance = distance(sLx.get(0), sLx.get(1));
 
 		if (numberOfSchools <= 3) {
-			return forLoops(sLx, closestPair, 0, numberOfSchools, false, minDistance);
-			/*
-			for(int holdPointer = 0; holdPointer < numberOfSchools; holdPointer++){
-				for(int movingPointer = holdPointer + 1; movingPointer < numberOfSchools; movingPointer++){
-					double calculatedDistance = distance(sLx.get(holdPointer), sLx.get(movingPointer));
-					if(calculatedDistance <= minDistance){ // ensures at least 1 assignment is made.
-						minDistance = calculatedDistance;
-						closestPair[0] = sLx.get(holdPointer);
-						closestPair[1] = sLx.get(movingPointer);
-					}
-				}
-			}
-			return closestPair;
-			 */
+			return forLoops(sLx, closestPair, 0, sLx.size(), false, minDistance);
 		}
 		
 		// Divide
@@ -99,12 +77,10 @@ public class Main {
 			double number1 = sLx.get((int) Math.floor((sLx.size() - 1)/2)).getX();
 			double number2 = sLx.get((sLx.size() - 1)/2 + 1).getX();
 			midline = (number1 + number2)/2;
-		}
-		else{
+		}else{
 			double number1 = sLx.get((sLx.size() - 2)/2).getX();
 			double number2 = sLx.get((sLx.size() - 2)/2 + 1).getX();
 			midline = (number1 + number2)/2;
-
 		}
 
 
@@ -116,17 +92,15 @@ public class Main {
 		for(int i = 0; i < sLx.size(); i++){
 			if(sLx.get(i).getX() < midline){
 				XL.add(sLx.get(i));
-			}
-			else{
+			}else{
 				XR.add(sLx.get(i));
 			}
-			
 		}
+
 		for(int i = 0; i < sLy.size(); i++){
 			if(sLy.get(i).getX() < midline){
 				YL.add(sLy.get(i));
-			}
-			else{
+			}else{
 				YR.add(sLy.get(i));
 			}
 		}
@@ -150,24 +124,8 @@ public class Main {
 			}
 		}
 	
-		/*
-		for(int p1 = 0; p1 < deltaFromMidline.size() - 1; p1++ ){
-			int stopIndex = (p1 + 7 <= deltaFromMidline.size()) ? p1 + 7 : deltaFromMidline.size();
-			for(int p2 = p1 + 1; p2 < stopIndex; p2++){
-
-				double distanceBetweenMidline = distance(deltaFromMidline.get(p1), deltaFromMidline.get(p2));
-				if(distanceBetweenMidline < currentMinDistance){
-					currentMinDistance = distanceBetweenMidline;
-					returnArray[0] = deltaFromMidline.get(p1);
-					returnArray[1] = deltaFromMidline.get(p2);
-				}
-			}
-		}
-		 */
-
-		return forLoops(deltaFromMidline, returnArray, 0, deltaFromMidline.size()-1, true, currentMinDistance);
+		return forLoops(deltaFromMidline, returnArray, 0, (deltaFromMidline.size()-1), true, currentMinDistance);
 	}
-
 
 
 	// Calculate distance of two points using the distance formula
@@ -176,7 +134,6 @@ public class Main {
 		return calculatedDistance;
 	}
 
-	// note ending index is just the arraySize 
 	public static School[] forLoops(
 		ArrayList<School> arrayOfSchools, 
 		School[] startingState, 
@@ -185,14 +142,15 @@ public class Main {
 		boolean conditionTwo,
 		double startingMinDistance
 		){
+
 		School[] returnArray = startingState;
 		double currentMinDistance = startingMinDistance;
 
 		for(int p1 = startingP1; p1 < endingP1; p1++ ){
-			int stopIndex = (p1 + 7 <= arrayOfSchools.size() && conditionTwo) ? p1 + 7 : arrayOfSchools.size();
+			int stopIndex = ((p1 + 7 <= arrayOfSchools.size()) && conditionTwo) ? p1 + 7 : arrayOfSchools.size();
 			for(int p2 = p1 + 1; p2 < stopIndex; p2++){
 				double distance = distance(arrayOfSchools.get(p1), arrayOfSchools.get(p2));
-				if(distance < currentMinDistance){
+				if(distance <= currentMinDistance){
 					currentMinDistance = distance;
 					returnArray[0] = arrayOfSchools.get(p1);
 					returnArray[1] = arrayOfSchools.get(p2);
