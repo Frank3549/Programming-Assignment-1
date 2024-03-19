@@ -170,4 +170,24 @@ public class Main {
 		double calculatedDistance = Math.sqrt(Math.pow((p2.getX() - p1.getX()),2) + Math.pow((p2.getY() - p1.getY()),2) );
 		return calculatedDistance;
 	}
+
+	// note ending index is just the arraySize 
+	public static School[] forLoops(ArrayList<School> arrayOfSchools, int startingIndex, int endingIndex, double currentMinDistance){
+		School[] returnArray = new School[2];
+
+		for(int p1 = 0; p1 < arrayOfSchools.size() - 1; p1++ ){
+			int stopIndex = (p1 + 7 <= arrayOfSchools.size()) ? p1 + 7 : arrayOfSchools.size();
+			for(int p2 = p1 + 1; p2 < stopIndex; p2++){
+
+				double distanceBetweenMidline = distance(arrayOfSchools.get(p1), arrayOfSchools.get(p2));
+				if(distanceBetweenMidline < currentMinDistance){
+					currentMinDistance = distanceBetweenMidline;
+					returnArray[0] = arrayOfSchools.get(p1);
+					returnArray[1] = arrayOfSchools.get(p2);
+				}
+			}
+		}
+
+		return returnArray;
+	}
 }
